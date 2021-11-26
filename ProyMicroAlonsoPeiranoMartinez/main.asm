@@ -21,6 +21,14 @@ start:
 
 	clr r16 ;lo dejo limpio para usar en el interrupt del adc.
 	ldi r17, 0b00000000 ;aca se van a ir generando los words random
+
+	.DSEG
+	secuencia: .byte 512
+	.CSEG
+
+	ldi	r28, low(secuencia)
+	ldi r29, high(secuencia)
+
 	sei
 ;-------------------------------------------------------------
 
@@ -43,4 +51,11 @@ randomBit_int: ;se genera numero random en r17
 
 	out SREG, r20
 	reti
+
+cargarEnRam:
+
+	ldi	r16,r17
+	st	Y, r16
+	inc Y
+
 
