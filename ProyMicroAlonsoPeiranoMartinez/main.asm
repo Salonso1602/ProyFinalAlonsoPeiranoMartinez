@@ -43,6 +43,7 @@ main:
 randomBit_int: ;se genera numero random en r17
 
 	in r20, SREG ;guardo las flags por las dudas.
+	clr r16
 	lds r16, ADCL ;cargo los 8 bits menos sinigficativos
 	
 	sbrc r16,0
@@ -54,8 +55,8 @@ randomBit_int: ;se genera numero random en r17
 
 cargarEnRam:
 
-	ldi	r16,r17
+	mov	r16,r17
 	st	Y, r16
-	inc Y
+	;inc Y
 
 
