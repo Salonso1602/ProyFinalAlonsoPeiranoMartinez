@@ -27,6 +27,8 @@
   <randomBit_int><FILE>C:\Users\gatom\OneDrive\Escritorio\micro\labs\ProyFinalAlonsoPeiranoMartinez\ProyMicroAlonsoPeiranoMartinez\main.asm</FILE><LINE>43</LINE></randomBit_int>
   <secuencia><FILE>C:\Users\gatom\OneDrive\Escritorio\micro\labs\ProyFinalAlonsoPeiranoMartinez\ProyMicroAlonsoPeiranoMartinez\main.asm</FILE><LINE>26</LINE></secuencia>
   <main><FILE>C:\Users\gatom\OneDrive\Escritorio\micro\labs\ProyFinalAlonsoPeiranoMartinez\ProyMicroAlonsoPeiranoMartinez\main.asm</FILE><LINE>36</LINE></main>
-  <cargarEnRam><FILE>C:\Users\gatom\OneDrive\Escritorio\micro\labs\ProyFinalAlonsoPeiranoMartinez\ProyMicroAlonsoPeiranoMartinez\main.asm</FILE><LINE>56</LINE></cargarEnRam>
+  <delay><FILE>C:\Users\gatom\OneDrive\Escritorio\micro\labs\ProyFinalAlonsoPeiranoMartinez\ProyMicroAlonsoPeiranoMartinez\main.asm</FILE><LINE>64</LINE></delay>
+  <cargarEnRam><FILE>C:\Users\gatom\OneDrive\Escritorio\micro\labs\ProyFinalAlonsoPeiranoMartinez\ProyMicroAlonsoPeiranoMartinez\main.asm</FILE><LINE>57</LINE></cargarEnRam>
+  <delay2><FILE>C:\Users\gatom\OneDrive\Escritorio\micro\labs\ProyFinalAlonsoPeiranoMartinez\ProyMicroAlonsoPeiranoMartinez\main.asm</FILE><LINE>67</LINE></delay2>
  </LABELS>
 </ASSEMBLER_INFO>
