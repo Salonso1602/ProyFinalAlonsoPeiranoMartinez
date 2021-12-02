@@ -32,6 +32,18 @@ start:
 	cbi		PORTD,	7			;PD.7 a 0, es el reloj serial, inicializo a 0
 	cbi		PORTD,	4			;PD.4 a 0, es el reloj del latch, inicializo a 0
 
+	;-------------------------------------------------------------------------------------	
+;Configuro el TMR0 y su interrupcion.
+	ldi		r16,	0b00000010	
+	out		TCCR0A,	r16			;configuro para que cuente hasta OCR0A y vuelve a cero (reset on compare), ahí dispara la interrupción
+	ldi		r16,	0b00000100	
+	out		TCCR0B,	r16			;prescaler = 256
+	ldi		r16,	1
+	out		OCR0A,	r16			;comparo con 1
+	ldi		r16,	0b00000010	
+	sts		TIMSK0,	r16			;habilito la interrupción (falta habilitar global)	
+;-------------------------------------------------------------------------------------
+
 	clr r16 ;lo dejo limpio para usar en el interrupt del adc.
 	ldi r17, 0b00000000 ;aca se van a ir generando los words random
 
@@ -56,7 +68,7 @@ main:
 randomBit_int: ;se genera numero random en r17
 
 	in r20, SREG ;guardo las flags por las dudas.
-	lds r16, ADCL ;cargo los 8 bits menos sinigficativos
+	lds r21, ADCL ;cargo los 8 bits menos sinigficativos
 	
 	sbrc r16,0
 	inc r17
@@ -80,10 +92,10 @@ displayUpdate:
 		updatePrimerDig:
 		ldi	r17,0b00010000
 		mov	r16,r30
-		cbr r16,7
-		cbr r16,6
-		cbr r16,5
-		cbr r16,4
+		cbr r16,128
+		cbr r16,64
+		cbr r16,32
+		cbr r16,16
 		rjmp sacanum
 updatePrimerDigOut:
 
@@ -91,10 +103,10 @@ updatePrimerDigOut:
 		inc	r25
 		ldi	r17,0b00100000
 		mov	r16,r30
-		cbr r16,0
 		cbr r16,1
 		cbr r16,2
-		cbr r16,3
+		cbr r16,4
+		cbr r16,8
 		lsr r16
 		lsr r16
 		lsr r16
@@ -107,22 +119,22 @@ updateSegundoDigOut:
 		inc	r25
 		ldi	r17,0b01000000
 		mov	r16,r31
-		cbr r16,7
-		cbr r16,6
-		cbr r16,5
-		cbr r16,4
+		cbr r16,128
+		cbr r16,64
+		cbr r16,32
+		cbr r16,16
 
 		rjmp sacanum
 		updateTercerDigOut:
 
 		updateCuartoDig:
-		inc	r30
+		inc	r25
 		ldi	r17,0b10000000
 		mov	r16,r31
-		cbr r16,0
 		cbr r16,1
 		cbr r16,2
-		cbr r16,3
+		cbr r16,4
+		cbr r16,8
 		lsr r16
 		lsr r16
 		lsr r16
@@ -156,7 +168,7 @@ traducido:
 	rjmp    updateCuartoDigOut
 
 dato_serie:
-	ldi		r18, 0x08		;lo utilizo para contar 8 (8 bits)
+	ldi		r19, 0x08		;lo utilizo para contar 8 (8 bits)
 loop_dato1:
 	cbi		PORTD, 7		;SCLK = 0 reloj en 0
 	lsr		r16				;roto a la derecha r16 y el bit 0 se pone en el C
@@ -167,7 +179,7 @@ loop_dato2:
 	sbi		PORTB, 0		;SD = 1 escribo un 1
 loop_dato3:
 	sbi		PORTD, 7		;SCLK = 1 reloj en 1
-	dec		r18
+	dec		r19
 	brne	loop_dato1		;cuando r17 llega a 0 corta y vuelve
 chkrDatoOut:
 	cpi r23,0
@@ -263,11 +275,20 @@ translateBinaryR16:
 
 cargarEnRam:
 
-	mov	r16,r18
-	mov r30,r16
-	st	Y+, r16
+	mov	r24,r18
+	mov r23,r24
+	st	Y+, r24
 
-	ret
+	cbr r23,128
+	cbr r23,16
+	cbr r23,4
+	cbr r23,2
+	clc
+	add r30,r23
+	brbs 0,outRam
+	inc r31
+
+outRam:	ret
 
 codificarHemming:
 	mov r18,r17
@@ -289,7 +310,7 @@ codificarHemming:
 		rjmp Chckr2
 
 		clrbit1:
-		cbr r18,1
+		cbr r18,2
 		clr r22
 		rjmp Chckr2
 
@@ -304,12 +325,12 @@ codificarHemming:
 		breq clrbit2
 		cpi r22,2
 		breq clrbit2
-		sbr r18,2
+		sbr r18,4
 		clr r22
 		rjmp Chckr4
 
 		clrbit2:
-		cbr r18,2
+		cbr r18,4
 		clr r22
 		rjmp Chckr4
 
@@ -324,31 +345,21 @@ codificarHemming:
 		breq clrbit4
 		cpi r22,2
 		breq clrbit4
-		sbr r18,4
-		cbr r18,7
+		sbr r18,16
+		cbr r18,128
 ret
 
 		clrbit4:
-		cbr r18,4
-		cbr r18,7
+		cbr r18,16
+		cbr r18,128
 ret
 
 delay:
-	inc r20
+	inc r27
 	brne delay
 	delay2:
-		inc r21
+		inc r26
 		brne delay2
-	clr r21
-	clr r20
+	clr r26
+	clr r27
 	ret
-
-sumaEnDisplay:
-	cbr r23,8
-	cbr r23,4
-	cbr r23,2
-	cbr r23,1
-
-	add r30,r23
-	adc r31,r24
-
