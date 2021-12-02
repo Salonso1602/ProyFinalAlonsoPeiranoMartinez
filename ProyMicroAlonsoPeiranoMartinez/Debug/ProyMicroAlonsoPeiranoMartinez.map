@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\gatom\OneDrive\Escritorio\micro\labs\ProyFinalAlonsoPeiranoMartinez\ProyMicroAlonsoPeiranoMartinez\main.asm Tue Nov 30 20:01:25 2021
+AVRASM ver. 2.2.8  C:\Users\gatom\OneDrive\Escritorio\micro\labs\ProyFinalAlonsoPeiranoMartinez\ProyMicroAlonsoPeiranoMartinez\main.asm Thu Dec 02 16:30:42 2021
 
 
 EQU  SIGNATURE_000 0000001e
@@ -696,9 +696,55 @@ EQU  TWIaddr      00000030
 EQU  SPMRaddr     00000032
 EQU  INT_VECTORS_SIZE 00000034
 CSEG start        0000002c
-CSEG randomBit_int 0000003e
+CSEG _tmr0_setup  00000051
+CSEG randomBit_int 00000047
 DSEG secuencia    00000100
-CSEG main         00000037
-CSEG delay        0000004b
-CSEG cargarEnRam  00000048
-CSEG delay2       0000004d
+CSEG main         00000040
+CSEG delay        0000010f
+CSEG cargarEnRam  000000d9
+CSEG displayUpdate 00000056
+CSEG _tmr0_int    00000053
+CSEG _tmr0_out    00000053
+CSEG updatePrimerDig 00000056
+CSEG sacanum      0000007e
+CSEG updatePrimerDigOut 0000005d
+CSEG updateSegundoDig 0000005d
+CSEG updateSegundoDigOut 00000069
+CSEG updateTercerDig 00000069
+CSEG updateTercerDigOut 00000071
+CSEG updateCuartoDig 00000071
+CSEG updateCuartoDigOut 0000007d
+CSEG translateBinaryr16 0000009b
+CSEG traducido    0000007f
+CSEG dato_serie   0000008b
+CSEG primerDatoOut 00000080
+CSEG segundoDatoOut 00000082
+CSEG loop_dato1   0000008c
+CSEG loop_dato2   00000091
+CSEG loop_dato3   00000092
+CSEG chkrDatoOut  00000095
+CSEG chkr2        00000099
+CSEG unoDisplay   000000bb
+CSEG dosDisplay   000000bd
+CSEG tresDisplay  000000bf
+CSEG cuatroDisplay 000000c1
+CSEG cincoDisplay 000000c3
+CSEG seisDisplay  000000c5
+CSEG sieteDisplay 000000c7
+CSEG ochoDisplay  000000c9
+CSEG nueveDisplay 000000cb
+CSEG aDisplay     000000cd
+CSEG bDisplay     000000cf
+CSEG cDisplay     000000d1
+CSEG dDisplay     000000d3
+CSEG eDisplay     000000d5
+CSEG fDisplay     000000d7
+CSEG codificarHemming 000000dd
+CSEG Chckr1       000000df
+CSEG clrbit1      000000ec
+CSEG Chckr2       000000ef
+CSEG clrbit2      000000fc
+CSEG Chckr4       000000ff
+CSEG clrbit4      0000010c
+CSEG delay2       00000111
+CSEG sumaEnDisplay 00000116

@@ -101,7 +101,7 @@ updatePrimerDigOut:
 		lsr r16
 
 		rjmp sacanum
-updateSegundoDigOut
+updateSegundoDigOut:
 
 		updateTercerDig:
 		inc	r25
@@ -248,26 +248,24 @@ translateBinaryR16:
 		bDisplay:
 			ldi r16,0b11000001
 			rjmp traducido
-		cDisplay
+		cDisplay:
 			ldi r16,0b01100011
 			rjmp traducido
-		dDisplay
+		dDisplay:
 			ldi r16,0b10000101
 			rjmp traducido
-		eDislpay
+		eDisplay:
 			ldi r16,0b01100001
 			rjmp traducido
-		fDisplay
+		fDisplay:
 			ldi r16,0b01110001
 			rjmp traducido
 
 cargarEnRam:
 
 	mov	r16,r18
+	mov r30,r16
 	st	Y+, r16
-	
-	ld	r23,low(Y)
-	ld	r24,high(Y)
 
 	ret
 
